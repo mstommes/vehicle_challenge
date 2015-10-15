@@ -23,7 +23,7 @@ $(document).ready(function(){
         //}
 
 
-        $('.clearButton').click('button', function(){
+        $('.clearButton').click( function(){
           $('.carResults').remove();
         });
 
@@ -33,7 +33,7 @@ $(document).ready(function(){
             dataType: "json",
             success: function(data) {
              callback(data);
-                console.log(data);
+
             },
             error: function(){
                 alert("Sorry, no data was found based on your search.");
@@ -44,17 +44,20 @@ $(document).ready(function(){
 });
 
 function callback(data) {
-    var $results = $('.carResults');
-            $results.append('<p>' + data + '</p>');
-            //$results.append('<p>The Vehicle Make is: ' + carMake + '</p>');
-            //$results.append('<p>The Vehicle Model is: ' + carModel + '</p>');
-            //$results.append('<p>The Vehicle Trim is: ' + data.items.model_trim + '</p>');
-            //$results.append('<p>The Vehicle Engine Type is: ' + data.model_engine_type + '</p>');
-            //$results.append('<p>The Vehicle Engine Displacement (in liters)is: ' + displacement+ '</p>');
-            //$results.append('<p>The Vehicle Horsepower is: ' + horsepower + '</p>');
-            //$results.append('<p>The Vehicle Transmission Type is: ' +  model_transmission_type+ '</p>');
-        }
+    var response = data;
+    var trimsArray = response.Trims;
+    var car = trimsArray[0];
+    console.log(car);
+        var $results = $('.carResults');
+        $results.append('<p>The Vehicle Make is: ' + carMake + '</p>');
+        $results.append('<p>The Vehicle Model is: ' + carModel + '</p>');
+        $results.append('<p>The Vehicle Year is: ' + year + '</p>');
+        $results.append('<p>The Vehicle Trim is: ' + car.model_trim + '</p>');
+        $results.append('<p>The Vehicle Engine Type is: ' + car.model_engine_type + '</p>');
+        $results.append('<p>The Vehicle Engine Displacement (in liters)is: ' + car.displacement+ '</p>');
+        $results.append('<p>The Vehicle Horsepower is: ' + car.horsepower + '</p>');
+        $results.append('<p>The Vehicle Transmission Type is: ' + car.model_transmission_type + '</p>');
 
-
+    }
 });
 
