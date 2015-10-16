@@ -52,48 +52,52 @@ $(document).ready(function () {
     });
 
     function callback(data) {
-        //var trimsArray = data.Trims;//original before the map function
-        //console.log(trimsArray);
+        var trimsArray = data.Trims;//original before the map function
+        console.log(trimsArray);
+        if (trimsArray.length <= 0){
+            alert("Sorry No Vehicle was found");
+        } else {
+            data.Trims.map(function (trim) {//map function on the data.Trims iterates through the array full of objects
+                console.log(trim);
+                //if (trim == []){
+                //    alert("Sorry No Vehicle was found");
+                //} else {
+                var results = $('.carResults');
+                results.append('<p> ' + "Make: " + trim.model_make_id + " Model: " + trim.model_name + " Year: " + trim.model_year + " Trim: " + trim.model_trim + " Engine Type: " + trim.model_engine_type + " Transmission: " + trim.model_transmission_type + '</p>');
+                //results.append('<p>Vehicle Model: ' + trim.model_name+ '</p>');
+                //results.append('<p>Vehicle Year: ' + trim.model_year+ '</p>');
+                //results.append('<p>Vehicle Trim: ' + trim.model_trim + '</p>');
+                //results.append('<p>Vehicle Engine Type: ' + trim.model_engine_type + '</p>');
+                //results.append('<p>Vehicle Engine Displacement (in liters): ' + "Not Available" + '</p>');
+                //results.append('<p>Vehicle Horsepower: ' + "Not Available" + '</p>');
+                //results.append('<p>Vehicle Transmission Type: ' + trim.model_transmission_type + '</p>');
+            });
+            //$('.carResults').first().addClass("active");
+            //
+            //$('.carResults').append("<button id='next' class='scrollButton'>Previous Item</button>");
+            //$('.carResults').append("<button id='previous' class='scrollButton'>Next Item</button>");
 
 
-        data.Trims.map(function(trim) {//map funtion on the data.Trims iterates through the array full of objects
-           console.log(trim);
-
-        var $results = $('.carResults');
-        $results.first().addClass("active");
-        $results.append('<p>Vehicle Make: ' + trim.model_make_id + '</p>');
-        $results.append('<p>Vehicle Model: ' + trim.model_name+ '</p>');
-        $results.append('<p>Vehicle Year: ' + trim.model_year+ '</p>');
-        $results.append('<p>Vehicle Trim: ' + trim.model_trim + '</p>');
-        $results.append('<p>Vehicle Engine Type: ' + trim.model_engine_type + '</p>');
-        $results.append('<p>Vehicle Engine Displacement (in liters): ' + "Not Available" + '</p>');
-        $results.append('<p>Vehicle Horsepower: ' + "Not Available" + '</p>');
-        $results.append('<p>Vehicle Transmission Type: ' + trim.model_transmission_type + '</p>');
-        })
-
-        $('.carResults').append("<button id='next' class='scrollButton'>Previous Item</button>");
-        $('.carResults').append("<button id='previous' class='scrollButton'>Next Item</button>");
-
-
-        $("button").click('#next', function () {
-            var currentClass = $(".active");
-            var nextClass = currentClass.next();
-            if (nextClass.length === 0) {
-                nextClass = $('.carResults').first();
-            }
-            currentClass.removeClass("active");
-            nextClass.addClass("active");
-        });
-
-
-        $("button").click('#previous', function () {
-            var currentClass = $(".active");
-            var previousClass = currentClass.prev();
-            if (previousClass.length === 0) {
-                previousClass = $('.carResults').last();
-            }
-            currentClass.removeClass("active");
-            previousClass.addClass("active");
-        });
+            //    $("button").click('#next', function () {
+            //        var currentClass = $(".active");
+            //        var nextClass = currentClass.next();
+            //        if (nextClass.length === 0) {
+            //            nextClass = $('.carResults').first();
+            //        }
+            //        currentClass.removeClass("active");
+            //        nextClass.addClass("active");
+            //    });
+            //
+            //
+            //    $("button").click('#previous', function () {
+            //        var currentClass = $(".active");
+            //        var previousClass = currentClass.prev();
+            //        if (previousClass.length === 0) {
+            //            previousClass = $('.carResults').last();
+            //        }
+            //        currentClass.removeClass("active");
+            //        previousClass.addClass("active");
+            //    });
+        }
     }
 });
