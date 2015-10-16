@@ -3,8 +3,8 @@
 <head>
     <link rel="stylesheet" href="./bootstrap-3.3.5-dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
-    <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
-    <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.3.js"></script>
+    <!--<script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.3.js"></script>-->
     <title>Identifix API Call Challenge</title>
 </head>
 
@@ -12,16 +12,16 @@
 <header class="heading">Identifix API Call Challenge</header>
 <div class="container">
     <div class="row col-md-6">
-    <form class="infoboxes">
-    <label>Select Your Vehicle By Year, Make and Model<br>
-        (Example Format: 2012 Hyunda Elantra):</label><br>
-    <input type="text" class="carInfo" placeholder="Enter your car's year, make and model"/>
-    <button class=submit type="submit">Search CarQuery</button>
-    </form>
+        <form id="searchBox" class="infoboxes">
+            <label>Select Your Vehicle By Year, Make and Model<br>
+                (Example Format: 2012 Hyunda Elantra):</label><br>
+            <input type="text" class="carInfo" placeholder="Enter your car's year, make and model"/>
+            <button class=button type="submit">Search CarQuery</button>
+        </form>
     </div>
 
 
-    <div class="row col-md-6">
+    <div class="row col-md-12">
         <div class="infoboxes">
             <label>Info About The Vehicle You Selected:</label>
             <div class="carResults"></div>

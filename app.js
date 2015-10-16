@@ -1,63 +1,99 @@
-//Declare any variables as global
-var carInfo;
-var carInfoArray;
-var year;
-var carMake;
-var carModel;
+var carMake,
+    carModel,
+    inputYear;
 
-//make sure the page loads and then do stuff
-$(document).ready(function(){
-    $('button').click(".submit", function (event){
+$(document).ready(function () {
+    $('button').click(".submit", function (event) {
         event.preventDefault();
-        carInfo = $('.carInfo').val();
-        carInfoArray = carInfo.split(" ");
-        console.log(carInfoArray);
-        //use a regular expression on the car data
-        //add an if statement to check if year length is 2, 3, or 4 if 2 add 20 to it, if 3 remove first character and add 20 to it
-        year= carInfoArray[0];
+
+        var carInfo = $('.carInfo').val();//TAKE VALUE IN INPUT FIELD FROM HTML FORM
+
+        var carInfoArray = carInfo.split(" ");//PUT INFO IN ARRAY SO IT'S EASIER TO WORK WITH
+
+        //get last 2 digits of year
+        // if the length not 4 then
+        //remove all apostrophes if there are any
+        //if input is greater than last 2 digits of current year, add 19
+        // else add 20
+
+        var date = new Date();  //declare new data object
+        var year = date.getFullYear().toString();//set to current year
+        var shortYear = parseInt(year.replace("20", ""));//creating an abbreviated version of the year
+
+        inputYear = carInfoArray[0];//sets the first item in the user input to inputYear
         carMake = carInfoArray[1];
         carModel = carInfoArray[2];
-        //reg expression to change date format
-        //function changeDate (array){
-        //    return array[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        //}
 
+        if (inputYear.length < 4) {
+            inputYear = inputYear.replace("'", "");  //this replaces the apostrophe if user adds one with an empty string
 
-        $('.clearButton').click( function(){
-          $('.carResults').remove();
+            if (inputYear > shortYear) {
+                inputYear = "19" + inputYear;
+            } else {
+                inputYear = "20" + inputYear;
+            }
+        }
+
+        $('.clearButton').click(function () {
+            $('.carResults').remove();
         });
 
         $.ajax({
             type: "GET",
-            url:"http://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make="+carMake+"&year="+year+"&model="+carModel,
+            url: "http://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make=" + carMake + "&model=" + carModel + "&year=" + inputYear,
             dataType: "json",
-            success: function(data) {
-             callback(data);
-
+            success: function (data) {
+                callback(data);
             },
-            error: function(){
+            error: function () {
                 alert("Sorry, no data was found based on your search.");
             }
+        });
+    });
 
+    function callback(data) {
+        //var trimsArray = data.Trims;//original before the map function
+        //console.log(trimsArray);
+
+
+        data.Trims.map(function(trim) {//map funtion on the data.Trims iterates through the array full of objects
+           console.log(trim);
+
+        var $results = $('.carResults');
+        $results.first().addClass("active");
+        $results.append('<p>Vehicle Make: ' + trim.model_make_id + '</p>');
+        $results.append('<p>Vehicle Model: ' + trim.model_name+ '</p>');
+        $results.append('<p>Vehicle Year: ' + trim.model_year+ '</p>');
+        $results.append('<p>Vehicle Trim: ' + trim.model_trim + '</p>');
+        $results.append('<p>Vehicle Engine Type: ' + trim.model_engine_type + '</p>');
+        $results.append('<p>Vehicle Engine Displacement (in liters): ' + "Not Available" + '</p>');
+        $results.append('<p>Vehicle Horsepower: ' + "Not Available" + '</p>');
+        $results.append('<p>Vehicle Transmission Type: ' + trim.model_transmission_type + '</p>');
+        })
+
+        $('.carResults').append("<button id='next' class='scrollButton'>Previous Item</button>");
+        $('.carResults').append("<button id='previous' class='scrollButton'>Next Item</button>");
+
+
+        $("button").click('#next', function () {
+            var currentClass = $(".active");
+            var nextClass = currentClass.next();
+            if (nextClass.length === 0) {
+                nextClass = $('.carResults').first();
+            }
+            currentClass.removeClass("active");
+            nextClass.addClass("active");
         });
 
-});
 
-function callback(data) {
-    var response = data;
-    var trimsArray = response.Trims;
-    var car = trimsArray[0];
-    console.log(car);
-        var $results = $('.carResults');
-        $results.append('<p>The Vehicle Make is: ' + carMake + '</p>');
-        $results.append('<p>The Vehicle Model is: ' + carModel + '</p>');
-        $results.append('<p>The Vehicle Year is: ' + year + '</p>');
-        $results.append('<p>The Vehicle Trim is: ' + car.model_trim + '</p>');
-        $results.append('<p>The Vehicle Engine Type is: ' + car.model_engine_type + '</p>');
-        $results.append('<p>The Vehicle Engine Displacement (in liters)is: ' + car.displacement+ '</p>');
-        $results.append('<p>The Vehicle Horsepower is: ' + car.horsepower + '</p>');
-        $results.append('<p>The Vehicle Transmission Type is: ' + car.model_transmission_type + '</p>');
-
+        $("button").click('#previous', function () {
+            var currentClass = $(".active");
+            var previousClass = currentClass.prev();
+            if (previousClass.length === 0) {
+                previousClass = $('.carResults').last();
+            }
+            currentClass.removeClass("active");
+            previousClass.addClass("active");
+        });
     }
 });
-
