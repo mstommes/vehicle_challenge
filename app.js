@@ -16,7 +16,7 @@ $(document).ready(function () {
         //if input is greater than last 2 digits of current year, add 19
         // else add 20
 
-        var date = new Date();  //declare new data object
+        var date = new Date();  //declare new date object
         var year = date.getFullYear().toString();//set to current year
         var shortYear = parseInt(year.replace("20", ""));//creating an abbreviated version of the year
 
@@ -34,43 +34,35 @@ $(document).ready(function () {
             }
         }
 
-        $('.clearButton').click(function () {
-            $('.carResults').remove();
-        });
-
         $.ajax({
             type: "GET",
             url: "http://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make=" + carMake + "&model=" + carModel + "&year=" + inputYear,
             dataType: "json",
             success: function (data) {
                 callback(data);
+
             },
             error: function () {
                 alert("Sorry, no data was found based on your search.");
             }
+
         });
+        $('button').click('.clearButton', function () {
+            $('.mainResults').remove();
+        });
+
     });
 
     function callback(data) {
         var trimsArray = data.Trims;//original before the map function
-        console.log(trimsArray);
         if (trimsArray.length <= 0){
-            alert("Sorry No Vehicle was found");
+            alert("Sorry No Vehicle was found");//if nothing is found there is a an alert that pops up
         } else {
             data.Trims.map(function (trim) {//map function on the data.Trims iterates through the array full of objects
-                console.log(trim);
-                //if (trim == []){
-                //    alert("Sorry No Vehicle was found");
-                //} else {
+            console.log(trim);
                 var results = $('.carResults');
-                results.append('<p> ' + "Make: " + trim.model_make_id + " Model: " + trim.model_name + " Year: " + trim.model_year + " Trim: " + trim.model_trim + " Engine Type: " + trim.model_engine_type + " Transmission: " + trim.model_transmission_type + '</p>');
-                //results.append('<p>Vehicle Model: ' + trim.model_name+ '</p>');
-                //results.append('<p>Vehicle Year: ' + trim.model_year+ '</p>');
-                //results.append('<p>Vehicle Trim: ' + trim.model_trim + '</p>');
-                //results.append('<p>Vehicle Engine Type: ' + trim.model_engine_type + '</p>');
-                //results.append('<p>Vehicle Engine Displacement (in liters): ' + "Not Available" + '</p>');
-                //results.append('<p>Vehicle Horsepower: ' + "Not Available" + '</p>');
-                //results.append('<p>Vehicle Transmission Type: ' + trim.model_transmission_type + '</p>');
+                results.append('<div class="mainResults"> ' + "Make: " + trim.model_make_id + " Model: " + trim.model_name + " Year: " + trim.model_year + " Trim: " + trim.model_trim + " Engine Type: " + trim.model_engine_type + " Transmission: " + trim.model_transmission_type + '</div>');
+
             });
             //$('.carResults').first().addClass("active");
             //
