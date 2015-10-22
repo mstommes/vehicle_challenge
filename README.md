@@ -35,7 +35,3 @@ from that api.
        as this information was not included in the API when the object was returned but does seem to be part of the query
        data on the carquery search example page.
 
-
-#Fun (yes fun)  It was neat to make a call to such a data rich site and have information come back.  I also enjoyed the logic
-behind separating out the individual string items when a user submitted their input as one field.  However, this project could become
-even more detailed as logic could be added to changed user input of Chevy to Chevrolet, etc.
